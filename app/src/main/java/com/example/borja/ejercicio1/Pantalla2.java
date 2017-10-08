@@ -32,14 +32,19 @@ public class Pantalla2 extends AppCompatActivity implements View.OnClickListener
     }
 
     private void getInfoFromIntent() {
+        // Obtiene los datos de la Activity Principal y muestra un mensaje por pantalla
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
         if (extras != null) { // comprobamos si el intent contiene datos
             String nombre = (String)extras.get("nombre");// obtengo el nombre
             String sexo = (String)extras.get("sexo");// obtengo el sexo
 
-            msjSaludo.setText("Hola "+nombre+", indicame los siguientes datos:");
+            setMsjSaludo(nombre);
         }
+    }
+
+    public void setMsjSaludo (String nombre){
+        msjSaludo.setText("Hola "+nombre+", indicame los siguientes datos:");
     }
 
     private void setController() {
@@ -49,6 +54,7 @@ public class Pantalla2 extends AppCompatActivity implements View.OnClickListener
 
     @Override
     public void onClick(View v) {
+        // Comprobamos si el usuario ha hecho click en continuar o en cancelar
         if (v.getId() == botonContinuar.getId()) {
             if(edadIsOk()) {
                 continuar();
@@ -60,6 +66,7 @@ public class Pantalla2 extends AppCompatActivity implements View.OnClickListener
         }
     }
 
+    // edadIsOk comprueba si el campo edad ha sido rellenado y si contiene un numero
     private boolean edadIsOk() {
         String edadAux  = txtEdad.getText().toString().trim();
         if (!edadIsEmpty(edadAux)) {
@@ -92,7 +99,7 @@ public class Pantalla2 extends AppCompatActivity implements View.OnClickListener
         // Añadimos los parametros al intent
         Intent i = getIntent();
         i.putExtra("edad", edad);
-        // Iniciamos la actividad pasandole la intención con los parametros guardados
+        // Iniciamos la actividad pasandole el intent con los parametros guardados
        setResult(RESULT_OK,i);
     }
 

@@ -63,10 +63,12 @@ public class Principal extends AppCompatActivity implements View.OnClickListener
     }
 
     private boolean nombreIsOk() {
+        // Comprobamos que el campo nombre no esta vacio
         return txtNombre.getText().toString().trim().length() > 0 ? true : false;
     }
 
     private boolean sexoIsSelected() {
+        // Comprobamos que ha seleccionado una opcion para el sexo
         return radioGroupSexo.getCheckedRadioButtonId() !=  -1 ? true : false;
     }
 
@@ -84,26 +86,31 @@ public class Principal extends AppCompatActivity implements View.OnClickListener
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
             if (resultCode == RESULT_OK){
-                showMessage(data);
+                getInfoFromIntent(data);
                 disableOptions();
             }
     }
 
-    public void showMessage(Intent intent){
+    private void getInfoFromIntent(Intent intent) {
+        // Obtiene los datos del subactivity Pantalla2 y muestra un mensaje por pantalla
         Bundle extras = intent.getExtras();
         int edad = (int)extras.get("edad");// obtengo la edad
+        setMsjEdad(edad);
+    }
+
+    public void setMsjEdad (int edad){
         this.msjEdad.setText(prepareMessage(edad));
     }
 
     private String prepareMessage(int edad) {
-        if ( edad>=18 && edad<25) {
+        if (edad>=18 && edad<25) {
             return "Ya eres mayor de edad";
         } else if (edad>=25 && edad<=35){
             return "Estas en la flor de la vida";
         } else if (edad>35){
             return "ai, ai, ai...";
         }
-        return "";
+        return "Eres menor de edad";
     }
 
     private void disableOptions() {
